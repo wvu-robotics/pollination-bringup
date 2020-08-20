@@ -8,7 +8,7 @@
   </xacro:macro> -->
   <husky />
   <!-- initialize kinova with connection to top of husky-->
-  <link name="intermediary">
+  <link name="root">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -25,12 +25,12 @@
     </collision>
   </link>
   <!-- 13.2 inches to the top center of the side plate -->
-  <joint name="intermediary_between_husky_and_kinova" type="fixed">
-    <child link="intermediary" />
+  <joint name="root_between_husky_and_kinova" type="fixed">
+    <child link="root" />
     <parent link="top_plate_link" />
     <origin xyz="0.2 0 0" rpy="0 0 3.14" />
   </joint>
   
-  <xacro:property name="robot_root" value="intermediary" />
+  <xacro:property name="robot_root" value="root" />
   <xacro:j2n6s300 base_parent="${robot_root}" prefix="j2n6s300" />
 </robot>
