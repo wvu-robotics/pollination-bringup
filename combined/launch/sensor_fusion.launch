@@ -26,28 +26,10 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 <launch>
   <param name="/use_sim_time" value="true"/>
 <!-- SLAM inserted here, maybe should put in the rviz call instead -->
-  <group ns="nav_filter">
-    <!-- SLAM -->
-    <node pkg="nav_filter"
-          name="nav_filter"
-          type="nav_filter_node"
-          output="screen">
+  <node pkg="tf" type="static_transform_publisher" name="greenhouse_to_map" args="1 0 0 0 1.7 2.61 0 greenhouse map 100" />
+  <rosparam file="$(find combined)/config/nav_filter_parameters.yaml"/>
+  <node pkg="sensor_fusion" type="sensor_fusion_node" name="sensor_fusion_node" output="screen"/>
 
-      <!-- Initial pose -->
-      <rosparam param="init">
-        position: {x: 0.0, y: 0.0, z: 0.0}
-        velocity: {vx: 0.0, vy: 0.0, vz: 0.0}
-        orientation: {qx: 0.0, qy: 0.0, qz: 0.0, qw: 1.0}
-        position_sigma: {x: 1.0, y: 1.0, z: 1.0}
-        velocity_sigma: {vx: 0.1, vy: 0.1, vz: 0.1}
-        orientation_sigma: {roll: 0.02, pitch: 0.02, yaw: 0.02}
-      </rosparam>
-
-      <!-- Rates -->
-      <rosparam file="$(find combined)/config/nav_filter_parameters.yaml"/>
-
-    </node>
-  </group>
-    <include file="$(find aloam_velodyne)/launch/aloam_velodyne_HDL_32.launch"/>
-    <include file="$(find gicp_localization)/launch/test_online.launch"/>
+  <include file="$(find aloam_velodyne)/launch/aloam_velodyne_HDL_32.launch"/>
+  <!-- <include file="$(find gicp_localization)/launch/test_online.launch"/> -->
 </launch>
