@@ -26,7 +26,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 <launch>
   <param name="/use_sim_time" value="true"/>
 <!-- SLAM inserted here, maybe should put in the rviz call instead -->
-  <node pkg="tf" type="static_transform_publisher" name="greenhouse_to_map" args="1 0 0 0 1.7 2.61 0 greenhouse map 100" />
+  <node pkg="tf" type="static_transform_publisher" name="greenhouse_to_map" args="1.7 2.61 0 0 0 0 1 greenhouse map 100" />
+  <node pkg="tf" type="static_transform_publisher" name="world_to_greenhouse" args="0 0 0 0 0 0 1 world greenhouse 100" />
   <rosparam file="$(find combined)/config/nav_filter_parameters.yaml"/>
   <node pkg="sensor_fusion" type="sensor_fusion_node" name="sensor_fusion_node" output="screen"/>
 
