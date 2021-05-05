@@ -28,7 +28,7 @@
   <joint name="root_between_husky_and_kinova" type="fixed">
     <child link="root" />
     <parent link="top_plate_link" />
-    <origin xyz="0.2 0 0" rpy="0 0 3.14" />
+    <origin xyz="0.2 0 0" rpy="0 0 1.57" />
   </joint>
   
   <xacro:property name="robot_root" value="root" />

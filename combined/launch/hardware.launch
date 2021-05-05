@@ -3,10 +3,15 @@
 <launch>
   <arg name="husky_serial_port" value= "/dev/serial/by-path/pci-0000:00:14.0-usb-0:2:1.0-port0" />
  
+  <!-- Robot Description -->
+  <!-- <param name="robot_description"
+   command="$(find xacro)/xacro '$(find combined)/urdf/combined.urdf.xacro'" /> -->
+
+ 
   <!-- Husky harware driver -->
-  <node pkg="husky_base" type="husky_node" name="husky_node">
+  <node pkg="husky_base" type="husky_node" name="husky_node" ns="j2n6s300">
       <rosparam subst_value="true">
-         port: $(arg husky_serial_port)
+          port: $(arg husky_serial_port)
 
           control_frequency: 10.0
           diagnostic_frequency: 1.0
@@ -25,6 +30,8 @@
   <include file="$(find hw_interface)/launch/hw_interface.launch" />
 
   <!-- Kinova arm -->
-
-
+  <!-- kinova-driver Controller parameters-->
+  <include file="$(find kinova_bringup)/launch/kinova_robot.launch" /> 
 </launch>
+
+

@@ -3,6 +3,9 @@
   <arg name="kinova_robotName" default="$(arg kinova_robotType)"/>  
   <arg name="use_trajectory_controller" default="true"/>
   <arg name="is7dof" default="false"/>
+  
+  <param name="robot_description"
+   command="$(find xacro)/xacro '$(find combined)/urdf/combined.urdf.xacro'" />
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find combined)/config/combined_control.yaml" command="load"/>
@@ -15,9 +18,7 @@
     <!-- Effort Joint trajectory controller-->
     <node name="$(arg kinova_robotName)_trajectory_controller" pkg="controller_manager" type="spawner" 
       output="screen" ns="j2n6s300" 
-      args="effort_joint_trajectory_controller
-      joint_state_controller
-      husky_joint_publisher
+      args="husky_joint_publisher
       husky_velocity_controller"/>
   </group>
  <!--  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
@@ -37,6 +38,6 @@
         respawn="false" output="screen" args="$(arg kinova_robotType)">       
   </node>
 
-  <include file="$(find bramblebee_contrl)/launch/teleop.launch" />
+  <include file="$(find bramblebee_control)/launch/teleop.launch" />
  
 </launch>
