@@ -1,0 +1,45 @@
+<launch>
+  <arg name="kinova_robotType" default="j2n6s300"/>
+  <arg name="kinova_robotName" default="$(arg kinova_robotType)"/>  
+  <arg name="use_trajectory_controller" default="true"/>
+  <arg name="is7dof" default="false"/>
+  
+  <param name="robot_description"
+   command="$(find xacro)/xacro '$(find combined)/urdf/combined.urdf.xacro'" />
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find combined)/config/combined_control.yaml" command="load"/>
+  <param name="j2n6s300/robot_description"
+    command="$(find xacro)/xacro '$(find combined)/urdf/combined.urdf.xacro'" />
+<!--   <rosparam command="load" file="$(find husky_control)/config/control.yaml" />
+ -->
+
+  <group if="$(arg use_trajectory_controller)">
+    <!-- Effort Joint trajectory controller-->
+    <node name="$(arg kinova_robotName)_trajectory_controller" pkg="controller_manager" type="spawner" 
+      output="screen" ns="j2n6s300" 
+      args="
+      effort_joint_trajectory_controller
+      joint_state_controller
+      husky_joint_publisher
+      husky_velocity_controller
+	"/>
+  </group>
+ <!--  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam command="load" file="$(find husky_control)/config/localization.yaml" />
+      <remap to="/j2n6s300/husky_velocity_controller/greenhouse" from="/husky_velocity_controller/odom"/> 
+  </node> -->
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">    
+    <remap from="/joint_states" to="/$(arg kinova_robotName)/joint_states"/>   
+  </node>
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+    <rosparam command="load" file="$(find bramblebee_control)/config/twist_mux.yaml" />
+    <remap from="cmd_vel_out" to="j2n6s300/husky_velocity_controller/cmd_vel"/>
+  </node>
+  <node name="command_robot_home_pose" pkg="kinova_control" type="move_robot.py"
+        respawn="false" output="screen" args="$(arg kinova_robotType)">       
+  </node>
+ 
+</launch>
