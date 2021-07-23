@@ -1,0 +1,22 @@
+<launch>
+  <param name="/use_sim_time" value="true"/>
+
+  <node pkg="manipulation_mapping"
+        name="pre_pose_mapping_ros_sim"
+        type="pre_pose_mapping_ros_sim.py"
+        output="screen">
+  </node>
+
+  <node pkg="manipulation_state_machine"
+        name="planning"
+        type="planning_ga_ros.py"
+        output="screen">
+  </node>
+
+  <node pkg="manipulation_state_machine"
+        name="arm_state_machine"
+        type="state_machine_pollinating_sim.py"
+        output="screen">
+  </node>
+  
+</launch>
