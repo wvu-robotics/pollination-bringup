@@ -1,5 +1,5 @@
 <launch>
-
+  <param name="/use_sim_time" value="true"/>
   <param name="robot_type" value="j2n6s300" />
   <param name="/j2n6s300_driver/robot_type" value="j2n6s300" />
   <param name="robot_connected" value="false" />
