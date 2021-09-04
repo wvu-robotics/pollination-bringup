@@ -38,8 +38,8 @@
     <rosparam command="load" file="$(find bramblebee_control)/config/twist_mux.yaml" />
     <remap from="cmd_vel_out" to="j2n6s300/husky_velocity_controller/cmd_vel"/>
   </node>
-  <node name="command_robot_home_pose" pkg="kinova_control" type="move_robot.py"
+  <!-- <node name="command_robot_home_pose" pkg="kinova_control" type="move_robot.py"
         respawn="false" output="screen" args="$(arg kinova_robotType)">       
-  </node>
+  </node> -->
  
 </launch>
